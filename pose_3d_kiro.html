@@ -52,6 +52,14 @@ body { margin: 0; padding: 0; font-family: sans-serif; background: #fafafa; }
     if (!plotEl || !plotEl.on) { setTimeout(bind, 100); return; }
     // 초기 resize (CSS height 따라가게)
     if (window.Plotly) Plotly.Plots.resize(plotEl);
+    // 시작 시 첫 프레임 고정 — auto-animation 차단
+    if (window.Plotly) {
+      Plotly.animate(plotEl, ['1452'], {
+        mode: 'immediate',
+        frame: {duration: 0, redraw: true},
+        transition: {duration: 0}
+      });
+    }
     plotEl.on('plotly_sliderchange', function(e) {
       if (e && e.step) setSrc(e.step.label);
     });
